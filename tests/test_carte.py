@@ -3357,3 +3357,22 @@ class TestTeintesDeModeleNeCollisionnentPasAvecLEtat(CarteTestCase):
         # brief. Si elles réapparaissent un jour sur .rid ou .mdot, la collision revient.
         for ancienne in ("#7fb08a", "#6fa8dc", "#b892e0"):
             self.assertNotIn(ancienne, carte._CSS)
+
+
+class TestVariablesDeTheme(unittest.TestCase):
+    """Une variable posée sur :root doit être relue quelque part.
+
+    Cinq jetons sont restés définis sans lecteur après la refonte de la case (b3433ca) :
+    `--accent` avait perdu le sien, les quatre `--m-*-bd` n'en ont jamais eu. Une couleur
+    morte se recopie au modèle suivant et se retouche à l'aveugle, puisque rien à l'écran
+    ne bouge quand on la change.
+    """
+
+    def test_aucune_variable_de_theme_n_est_definie_sans_etre_lue(self):
+        definies = set(re.findall(r"(--[a-z0-9-]+)\s*:", carte._CSS))
+        source = Path(carte.__file__).read_text(encoding="utf-8")
+        lues = set(re.findall(r"var\((--[a-z0-9-]+)", source))
+        mortes = sorted(definies - lues)
+        self.assertEqual(
+            mortes, [],
+            f"définies sur :root et jamais lues par un var() : {', '.join(mortes)}")

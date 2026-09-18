@@ -987,9 +987,8 @@ _CSS = """
 --line2:#20252c;--txt:#dfe4ea;--txt2:#c9d1da;--dim:#858e9b;--dim2:#6d7683;--dim3:#5b6470;
 --done:#46a35a;--done2:#3c7a4a;--running:#d3a03a;--finishing:#8b5cf6;--ready:#5aa2f0;
 --queued:#4a5361;--blocked:#e05252;--cancelled:#333941;--up:#5fa96f;--down:#5aa2f0;
---accent:#8cc0f7;--lien:#2f6ba8;--relu:#3f5d80;--badge:#171b21;
---m-haiku:#addb76;--m-haiku-bd:#4a6529;--m-sonnet:#76dbcd;--m-sonnet-bd:#29655d;
---m-opus:#db76cc;--m-opus-bd:#65295c;--m-fable:#e9acc6;--m-fable-bd:#652943}
+--lien:#2f6ba8;--relu:#3f5d80;--badge:#171b21;
+--m-haiku:#addb76;--m-sonnet:#76dbcd;--m-opus:#db76cc;--m-fable:#e9acc6}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--txt);-webkit-font-smoothing:antialiased;
 font:12.5px/1.45 ui-sans-serif,system-ui,-apple-system,"Segoe UI",sans-serif}
