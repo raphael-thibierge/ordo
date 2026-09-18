@@ -26,7 +26,7 @@ tmux or `claude` is missing.
 
 | Layer | Command | Proves |
 |---|---|---|
-| Unit suite | `ORDO_HOME=$(mktemp -d) python3 -m unittest discover tests/` | each module's behaviour in isolation; 517 tests as measured on this checkout |
+| Unit suite | `ORDO_HOME=$(mktemp -d) python3 -m unittest discover tests/` | each module's behaviour in isolation; the runner prints the count, no number is copied here to go stale |
 | End-to-end | `ORDO_HOME=$(mktemp -d) python3 tests/e2e.py` | the full CLI flow against real tmux panes; every check re-reads the actual on-disk artifact (`state.json`, a report file, the journal, a brief) instead of trusting a return value or stdout alone |
 | Mutation check | `bash tests/mutation_check.sh` | the two suites above are not decor - see below |
 
@@ -44,11 +44,17 @@ Ordo names 13 invariants, `I1` through `I13`, each traced back to a real, measur
 is removed from the code** - and `tests/mutation_check.sh` proves that it actually does:
 for each invariant it applies one exact, unique textual mutation to the file that carries
 it, runs that invariant's test, and requires the test to go red. It does the same for
-three prohibitions written into every executor's brief (no `AskUserQuestion`, no
-self-validation, nothing irreversible without asking), and for the map's own five
-properties (`CARTE1`..`CARTE5`), the server's three (`SERV1`..`SERV3`), the token
-reader's two (`USAGE1`, `USAGE2`) and the digest's two (`DIG1`, `DIG2`). 28 cases in
-total, currently.
+three prohibitions written into every executor's brief (`INT1`..`INT3`: no
+`AskUserQuestion`, no self-validation, nothing irreversible without asking), and for the
+map's own six properties (`CARTE1`..`CARTE6`), the server's three (`SERV1`..`SERV3`), the
+registry's three (`REG1`..`REG3`), the routing's two (`ROUT1`, `ROUT2`), the token
+reader's two (`USAGE1`, `USAGE2`) and the digest's two (`DIG1`, `DIG2`). 34 cases in
+total.
+
+That paragraph is not maintained by hand: `tests/test_docs.py` reads the `run_case` lines
+of the script and fails red when the total drifts, or when a family gains a case the
+sentence above stops short of. The count said 28 while the script ran 34, and named
+`CARTE1`..`CARTE5` while `CARTE6` was already running, before that test existed.
 
 When you add a behaviour worth protecting:
 
